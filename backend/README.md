@@ -21,6 +21,12 @@ A FastAPI server for object detection using YOLOv8 with custom model support.
    uv sync
    ```
 
+3. Manually install ultralytics to save space and prevent CUDA dependencies
+   ```bash
+   uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu \
+    && uv pip install ultralytics
+   ```
+
 ## Running the Server
 
 ### Option 1: Using uvicorn directly
