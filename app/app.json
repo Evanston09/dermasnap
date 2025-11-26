@@ -66,7 +66,6 @@
       "eas": {
         "projectId": "6fbb9a61-e124-4696-89da-78d4bfd3fbdc"
       },
-      "csaiBaseUrl": "${CSAI_BASE_URL}"
     }
   }
 }

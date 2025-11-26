@@ -90,15 +90,15 @@ type ProductInfoProps = {
 };
 
 const Product = ({ productInfo }: ProductInfoProps) => {
-  const tintColor = useThemeColor({}, "tint");
-  const darkerTintColor = useThemeColor({}, "darkerTint");
+  const cardBackground = useThemeColor({}, "cardBackground");
+  const imageBackground = useThemeColor({}, "imageBackground");
 
   return (
-    <View style={[styles.productCard, { backgroundColor: darkerTintColor }]}>
+    <View style={[styles.productCard, { backgroundColor: cardBackground }]}>
       <Image
         source={productInfo.image}
         contentFit="contain"
-        style={[styles.image, { backgroundColor: tintColor }]}
+        style={[styles.image, { backgroundColor: imageBackground }]}
       />
       <View style={styles.productInfoContainer}>
         <View>
@@ -113,7 +113,7 @@ const Product = ({ productInfo }: ProductInfoProps) => {
           style={styles.buyButton}
           onPress={() => Linking.openURL(productInfo.url)}
         >
-          <ThemedText style={styles.buyButtonText}>Buy Now</ThemedText>
+          <ThemedText style={styles.buyButtonText} lightColor="#fff" darkColor="#fff">Buy Now</ThemedText>
         </TouchableOpacity>
       </View>
     </View>

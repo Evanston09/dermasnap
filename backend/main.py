@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from typing import List, Dict, Any
+from contextlib import asynccontextmanager
 import io
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -9,13 +10,6 @@ from PIL import Image
 from ultralytics import YOLO
 import numpy as np
 
-# Initialize FastAPI app
-app = FastAPI(
-    title="YOLO Detection API",
-    description="FastAPI server for object detection using YOLOv8",
-    version="1.0.0"
-)
-
 # Global variable to store the model
 model = None
 
@@ -23,8 +17,8 @@ model = None
 MODEL_PATH = os.getenv("MODEL_PATH", "model.pt")
 
 
-def load_model():
-    """Load YOLO model on startup."""
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     global model
     if not Path(MODEL_PATH).exists():
         print(f"Warning: Model file not found at {MODEL_PATH}")
@@ -35,11 +29,16 @@ def load_model():
         model = YOLO(MODEL_PATH)
         print("Model loaded successfully!")
 
+    yield
+    model = None
 
-@app.on_event("startup")
-async def startup_event():
-    """Load model when the app starts."""
-    load_model()
+# Initialize FastAPI app
+app = FastAPI(
+    title="YOLO Detection API",
+    description="FastAPI server for object detection using YOLOv8",
+    version="1.0.0",
+    lifespan=lifespan
+)
 
 
 @app.get("/")
@@ -132,22 +131,6 @@ async def detect_objects(file: UploadFile = File(...)) -> JSONResponse:
         raise HTTPException(
             status_code=500,
             detail=f"Error processing image: {str(e)}"
-        )
-
-
-@app.post("/reload-model")
-async def reload_model():
-    """Reload the YOLO model (useful when updating the .pt file)."""
-    try:
-        load_model()
-        return {
-            "message": "Model reloaded successfully",
-            "model_loaded": model is not None
-        }
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error reloading model: {str(e)}"
         )
 
 

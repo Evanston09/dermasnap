@@ -47,7 +47,10 @@ export default function Quiz() {
                 } as any);
 
                 // Call the API
-                const csaiBaseUrl = Constants.expoConfig?.extra?.csaiBaseUrl || process.env.CSAI_BASE_URL;
+                // const csaiBaseUrl = process.env.CSAI_BASE_URL;
+                const csaiBaseUrl = "http://192.168.132.79:8000";
+                console.log(csaiBaseUrl);
+                console.log("Hello")
                 const response = await fetch(`${csaiBaseUrl}/detect`, {
                     method: 'POST',
                     body: formData,

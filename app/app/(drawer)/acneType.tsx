@@ -33,7 +33,6 @@ export type Detection = {
     confidence: number
 }
 export default function Scan() {
-  console.log("Scan component rendering");
   const [facing, setFacing] = useState<CameraType>('front');
   const [permission, requestPermission] = useCameraPermissions();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -133,10 +132,10 @@ export default function Scan() {
             <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={takePicture}>
-                    <ThemedText type="defaultSemiBold">Take Picture</ThemedText>
+                    <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">Take Picture</ThemedText>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={pickImage}>
-                    <ThemedText type="defaultSemiBold">Select Image</ThemedText>
+                    <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">Select Image</ThemedText>
                 </TouchableOpacity>
             </View>
         </ThemedView>

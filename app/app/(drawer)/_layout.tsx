@@ -6,7 +6,7 @@ export default function DrawerLayout() {
         <Drawer
             screenOptions={{
                 drawerActiveTintColor: Colors.primary_700,
-                drawerInactiveTintColor: Colors.primary_100,
+                drawerInactiveTintColor: Colors.primary_600,
                 drawerType: "slide",
             }}
         >
@@ -22,13 +22,6 @@ export default function DrawerLayout() {
                 options={{
                     drawerLabel: 'Analyze Acne Type',
                     title: 'Analyze Acne Type',
-                }}
-            />
-            <Drawer.Screen
-                name="fixRoutine"
-                options={{
-                    drawerLabel: 'Fix my Routine',
-                    title: 'Fix my Routine',
                 }}
             />
             <Drawer.Screen

@@ -67,7 +67,7 @@ export default function LoginScreen() {
                     onPress={handleSignIn}
                     activeOpacity={0.8}
                 >
-                    <ThemedText type="defaultSemiBold">Sign In</ThemedText>
+                    <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">Sign In</ThemedText>
                 </TouchableOpacity>
 
                 <TouchableOpacity 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     button: {
         height: 52,
         marginBottom: 16,
-        width: '100%', 
+        width: '100%',
         backgroundColor: Colors.primary_700,
         borderRadius: 12,
         justifyContent: 'center',

@@ -130,8 +130,8 @@ export default function Overview() {
                 </ThemedText>
                 
                 <TouchableOpacity style={styles.scanButton} onPress={()=>router.push('/(drawer)/acneType')}>
-                    <ScanFace size={128} color={textColor} />
-                    <ThemedText style={styles.buttonText}>
+                    <ScanFace size={128} color="#fff" />
+                    <ThemedText style={styles.buttonText} lightColor="#fff" darkColor="#fff">
                         Scan Face
                     </ThemedText>
                 </TouchableOpacity>
