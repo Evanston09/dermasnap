@@ -9,7 +9,7 @@ env:
   REGION: us-east1
   GAR_LOCATION: northamerica-northeast1-docker.pkg.dev/fake-app-323017/repo-1/
 
-job:
+jobs:
   build-push-artifact:
     runs-on: ubuntu-latest
     steps:
