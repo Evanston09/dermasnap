@@ -7,7 +7,7 @@ on:
 env:
   PROJECT_ID: clearskin-479420
   REGION: us-east1
-  GAR_LOCATION: northamerica-northeast1-docker.pkg.dev/fake-app-323017/repo-1/
+  GAR_LOCATION: us-east1-docker.pkg.dev/clearskin-479420/clearskin-backend
 
 jobs:
   build-push-artifact:
@@ -36,9 +36,9 @@ jobs:
         run: |-
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
-      # - name: Build image
-      #   run: docker build . --file DOCKERFILE_LOCATION --tag ${{ env.GAR_LOCATION }}
-      #   working-directory: WORKING_DIRECTORY
-      #
-      # - name: Push image
-      #   run: docker push ${{ env.GAR_LOCATION }}
+      - name: Build image
+        run: docker build . --file backend/Dockerfile --tag ${{ env.GAR_LOCATION }}
+        working-directory: backend/
+
+      - name: Push image
+        run: docker push ${{ env.GAR_LOCATION }}
