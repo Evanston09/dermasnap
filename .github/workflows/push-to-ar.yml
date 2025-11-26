@@ -7,7 +7,6 @@ on:
 env:
   PROJECT_ID: clearskin-479420
   REGION: us-east1
-  IMAGE_NAME: backend
   GAR_LOCATION: us-east1-docker.pkg.dev/clearskin-479420/clearskin-backend/backend:latest
 
 jobs:
@@ -35,9 +34,8 @@ jobs:
 
       - name: Build image
         working-directory: backend/
-        run: docker build . \
-          --file Dockerfile \
-          --tag ${{ env.GAR_LOCATION }}
+        run: |
+          docker build . --file Dockerfile --tag ${{ env.GAR_LOCATION }}
 
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}
