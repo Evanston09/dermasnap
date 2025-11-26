@@ -32,10 +32,10 @@ jobs:
       - name: "Use gcloud CLI"
         run: "gcloud info"
 
-      # - name: "Docker auth"
-      #   run: |-
-      #     gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
-      #
+      - name: "Docker auth"
+        run: |-
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
       # - name: Build image
       #   run: docker build . --file DOCKERFILE_LOCATION --tag ${{ env.GAR_LOCATION }}
       #   working-directory: WORKING_DIRECTORY
