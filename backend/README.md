@@ -7,7 +7,6 @@ A FastAPI server for object detection using YOLOv8 with custom model support.
 - Upload images and get object detections with bounding boxes, class labels, and confidence scores
 - Support for custom YOLOv8 models (provide your own .pt file)
 - RESTful API with automatic documentation
-- Model hot-reloading capability
 
 ## Setup
 
@@ -100,25 +99,6 @@ Response:
   "num_detections": 2
 }
 ```
-
-### 3. Reload Model
-```bash
-curl -X POST "http://localhost:8000/reload-model"
-```
-
-Response:
-```json
-{
-  "message": "Model reloaded successfully",
-  "model_loaded": true
-}
-```
-
-## API Documentation
-
-Once the server is running, visit:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
 
 ## Response Format
 

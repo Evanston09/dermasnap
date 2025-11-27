@@ -11,9 +11,25 @@ ClearSkin AI allows users to take photos of their face to detect acne spots usin
 - **React Native** with **Expo** - Cross-platform mobile development
 - **TypeScript** - Type-safe JavaScript
 - **Firebase** - User authentication
-- **TensorFlow.js** - Machine learning integration
 - **AsyncStorage** - Local data persistence
 - **Expo Camera & Image Picker** - Photo capture and gallery access
+
+## Environment Variables
+
+Create a `.env` file in the app directory (see `.env.example`):
+
+```env
+EXPO_PUBLIC_CSAI_BASE_URL=http://localhost:8000
+
+# Firebase Configuration
+EXPO_PUBLIC_FIREBASE_API_KEY=your_api_key_here
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain_here
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_project_id_here
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket_here
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id_here
+EXPO_PUBLIC_FIREBASE_APP_ID=your_app_id_here
+EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id_here
+```
 
 ## Setup
 
@@ -22,13 +38,16 @@ ClearSkin AI allows users to take photos of their face to detect acne spots usin
 npm install
 ```
 
-2. Configure Firebase credentials in `firebaseConfig.js`
+2. Copy and configure environment variables:
+```bash
+cp .env.example .env
+```
 
-3. Set your detection API endpoint in the environment configuration
+3. Update `.env` with your Firebase credentials and backend URL
 
 4. Start the development server:
 ```bash
-npm start
+npm expo start
 ```
 
 5. Run on your platform:
