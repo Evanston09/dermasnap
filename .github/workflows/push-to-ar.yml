@@ -1,5 +1,7 @@
 name: Build and Push to Artifact Registry
 
+# MUST READ TO UNDERSTAND AUTH:
+# https://github.com/google-github-actions/auth?tab=readme-ov-file#direct-wif
 on:
   push:
     branches: ["main"]
@@ -19,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
