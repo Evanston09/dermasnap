@@ -42,7 +42,6 @@ export default function Scan() {
         async function isFirstTime() {
             await AsyncStorage.removeItem('quiz-answers');
             const isFirstTime = await AsyncStorage.getItem('first-time');
-            console.log(isFirstTime);
             if (isFirstTime === null || isFirstTime === 'true') {
                 Alert.alert("First Time", "Seems like its your first time using Clearskin AI! Take a picture or upload a photo to get started. Disclaimer: This is not professional medical advice.")
             }
@@ -71,7 +70,6 @@ export default function Scan() {
                 params: { imageUri: permanentFile.uri, detectionId: id }
             });
         } catch (error) {
-            console.error('Error processing image:', error);
             Alert.alert('Error', 'Failed to process image. Please try again.');
             setIsProcessing(false);
         }

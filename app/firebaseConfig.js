@@ -10,13 +10,13 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBTtqzCj4dDByrXP6o-cNDYlk83oYoLhR8",
-  authDomain: "clearskin-ai-7d0d0.firebaseapp.com",
-  projectId: "clearskin-ai-7d0d0",
-  storageBucket: "clearskin-ai-7d0d0.firebasestorage.app",
-  messagingSenderId: "995491705290",
-  appId: "1:995491705290:web:5d5de9eac1c2a7908e9f33",
-  measurementId: "G-KX3H2Z0H6V"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 

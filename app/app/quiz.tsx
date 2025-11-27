@@ -2,17 +2,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { TouchableOpacity, StyleSheet, ActivityIndicator, View } from "react-native";
-import { auth } from '@/firebaseConfig'
+import { TouchableOpacity, StyleSheet, ActivityIndicator, View, Alert } from "react-native";
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { questionData }from '@/assets/questions'
-import { Circle, CircleCheck } from 'lucide-react-native';
+import { Circle, CircleCheck, AlertCircle } from 'lucide-react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Detection } from './(drawer)/acneType';
-import Constants from 'expo-constants';
 
+
+// TODO Actually test this error system
+// Look at the image size thing
 export default function Quiz() {
     const { imageUri, detectionId } = useLocalSearchParams();
     let [questionNumber, setQuestionNumber] = useState(0);
@@ -30,14 +31,11 @@ export default function Quiz() {
     useEffect(() => {
         async function callDetectionApi() {
             if (!imageUri || !detectionId) {
-                console.error('Missing imageUri or detectionId');
                 setApiStatus('error');
                 return;
             }
 
             try {
-                console.log('Starting API call for image:', imageUri);
-
                 // Create FormData for the API request
                 const formData = new FormData();
                 formData.append('file', {
@@ -47,10 +45,7 @@ export default function Quiz() {
                 } as any);
 
                 // Call the API
-                // const csaiBaseUrl = process.env.CSAI_BASE_URL;
-                const csaiBaseUrl = "http://192.168.132.79:8000";
-                console.log(csaiBaseUrl);
-                console.log("Hello")
+                const csaiBaseUrl = process.env.EXPO_PUBLIC_CSAI_BASE_URL;
                 const response = await fetch(`${csaiBaseUrl}/detect`, {
                     method: 'POST',
                     body: formData,
@@ -65,9 +60,6 @@ export default function Quiz() {
 
                 const result = await response.json();
 
-                console.log(`API returned ${result.num_detections} detections`);
-                console.log('Full API response:', JSON.stringify(result, null, 2));
-
                 // Store API results in state
                 setApiResults({
                     detections: result.detections,
@@ -76,13 +68,18 @@ export default function Quiz() {
                 setApiStatus('completed');
 
             } catch (error) {
-                console.error('Error calling detection API:', error);
                 setApiStatus('error');
             }
         }
 
         callDetectionApi();
     }, [imageUri, detectionId]);
+
+    useEffect(() => {
+        if (isWaitingForApi && apiStatus !== 'pending') {
+            saveQuizResults(answers);
+        }
+    }, [apiStatus, isWaitingForApi, answers]);
 
     const nextQuestion = async function() {
         if (selectedAnswer === null) {
@@ -103,14 +100,7 @@ export default function Quiz() {
             // Check if API call is still pending
             if (apiStatus === 'pending') {
                 setIsWaitingForApi(true);
-                // Wait for API to complete by checking state
-                const checkInterval = setInterval(() => {
-                    if (apiStatus !== 'pending') {
-                        clearInterval(checkInterval);
-                        saveQuizResults(newAnswers);
-                    }
-                }, 500);
-                return;
+                return; // Exit early, useEffect will handle saving
             }
 
             await saveQuizResults(newAnswers);
@@ -121,7 +111,6 @@ export default function Quiz() {
 
     const saveQuizResults = async (finalAnswers: Record<string, string>) => {
         if (!imageUri || !detectionId) {
-            console.error('Missing imageUri or detectionId');
             return;
         }
 
@@ -151,14 +140,33 @@ export default function Quiz() {
         // Save complete detection object
         await AsyncStorage.setItem(detectionId as string, JSON.stringify(detectionObject));
 
-        console.log('Saved complete detection:', JSON.stringify(detectionObject, null, 2));
-
         setIsWaitingForApi(false);
-        router.push('/(drawer)/overview');
+        router.push('/(drawer)');
     }
 
     // Show full-screen loading when waiting for API on quiz completion
     if (isWaitingForApi) {
+        if (apiStatus === 'error') {
+            return (
+                <ThemedView style={styles.loadingContainer}>
+                    <AlertCircle size={64} color={Colors.error} />
+                    <ThemedText style={styles.loadingMessage}>
+                        Analysis Failed
+                    </ThemedText>
+                    <ThemedText style={styles.loadingSubtext}>
+                        We couldn't analyze your image. Please try again.
+                    </ThemedText>
+                    <TouchableOpacity
+                        style={styles.errorButton}
+                        onPress={() => router.back()}
+                    >
+                        <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">
+                            Go Back
+                        </ThemedText>
+                    </TouchableOpacity>
+                </ThemedView>
+            );
+        }
         return (
             <ThemedView style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color={Colors.primary_600} />
@@ -184,6 +192,14 @@ export default function Quiz() {
                             <View style={styles.loadingIndicator}>
                                 <ActivityIndicator size="small" color={Colors.primary_600} />
                                 <ThemedText style={styles.loadingText}>Processing...</ThemedText>
+                            </View>
+                        )}
+                        {apiStatus === 'error' && (
+                            <View style={styles.loadingIndicator}>
+                                <AlertCircle size={16} color={Colors.error} />
+                                <ThemedText style={[styles.loadingText, { color: Colors.error }]}>
+                                    Analysis failed
+                                </ThemedText>
                             </View>
                         )}
                     </View>
@@ -294,5 +310,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
         color: Colors.primary_600,
         textAlign: 'center'
+    },
+    errorButton: {
+        marginTop: 24,
+        paddingVertical: 16,
+        paddingHorizontal: 32,
+        backgroundColor: Colors.primary_700,
+        borderRadius: 12,
     }
 });

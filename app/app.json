@@ -1,16 +1,19 @@
 {
   "expo": {
-    "name": "clearskin",
-    "slug": "clearskin",
+    "name": "Clearskin AI",
+    "slug": "clearskinai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "clearskin",
+    "scheme": "clearskinai",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.evanston.clearskin"
+      "bundleIdentifier": "me.evankim.clearskinai",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -56,7 +59,8 @@
       ],
       "expo-secure-store",
       "expo-asset",
-      "react-native-fast-tflite"
+      "react-native-fast-tflite",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
@@ -64,8 +68,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "6fbb9a61-e124-4696-89da-78d4bfd3fbdc"
-      },
-    }
+        "projectId": "2f77a79e-9bf0-414b-ad11-61076bd50ee2"
+      }
+    },
+    "owner": "evanston"
   }
 }

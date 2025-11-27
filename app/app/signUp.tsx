@@ -2,12 +2,11 @@ import { ThemedText } from '@/components/ThemedText';
 import { Image } from 'expo-image';
 import { ThemedView } from '@/components/ThemedView';
 import { TouchableOpacity, StyleSheet, TextInput, Alert, Dimensions, View } from "react-native";
-import { auth } from '@/firebaseConfig'
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { router } from 'expo-router';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useSession } from '@/contexts/AuthContext';
 
 export default function SignUp() {
     const [email, setEmail] = useState('')
@@ -15,22 +14,22 @@ export default function SignUp() {
     const [username, setUsername] = useState('')
     const [error, setError] = useState<String | null>(null)
     const textColor = useThemeColor({}, 'text');
-    
-    const handleAccountCreation = async () => {
-        setError(null)
+    const { signUp } = useSession();
 
-        if (!email.trim() || !password.trim()) {
-            setError('Fill Out All Fields')
+    const handleAccountCreation = async () => {
+        setError(null);
+
+        if (!email.trim() || !password.trim() || !username.trim()) {
+            setError('Fill Out All Fields');
             return;
         }
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                updateProfile(userCredential.user, {displayName: username})
-            })
-            .catch((error) => {
-                setError(error.message);
-            });
+        try {
+            await signUp(email, password, username);
+            // Auto-navigation via _layout.tsx when user state changes
+        } catch (error: any) {
+            setError(error.message);
+        }
     }
 
     return (
@@ -78,8 +77,8 @@ export default function SignUp() {
                     <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">Create Account</ThemedText>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
-                    onPress={() => router.replace('/')}
+                <TouchableOpacity
+                    onPress={() => router.replace('/login')}
                 >
                     <ThemedText type="defaultSemiBold" style={styles.extraText}>Sign In</ThemedText>
                 </TouchableOpacity>

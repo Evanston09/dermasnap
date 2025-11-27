@@ -33,19 +33,6 @@ type Detection = {
     confidence: number
 }
 
-// Helper function to get color for each acne type
-function getColorForAcneType(acneType: string): string {
-    const colors: Record<string, string> = {
-        'Blackhead': '#FFD700',  // Gold
-        'Whitehead': '#00CED1',  // Dark Turquoise
-        'Papule': '#FF6347',     // Tomato
-        'Pustule': '#FF4500',    // Orange Red
-        'Nodule': '#DC143C',     // Crimson
-        'Cyst': '#8B0000',       // Dark Red
-    };
-    return colors[acneType] || '#00FF00'; // Default to green if type unknown
-}
-
 export default function DetectionDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [result, setResult] = useState<Results | null>(null);
@@ -55,7 +42,6 @@ export default function DetectionDetails() {
             if (!id) return;
 
             const rawDetection = await AsyncStorage.getItem(id);
-            console.log(rawDetection)
             if (rawDetection) {
                 const detection: Results = JSON.parse(rawDetection);
                 setResult(detection);

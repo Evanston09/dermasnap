@@ -6,28 +6,45 @@ import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { SessionProvider, useSession } from '@/contexts/AuthContext';
+import SplashScreenController from './splash';
+import React from 'react';
 
-export default function RootLayout() {
-    const colorScheme = useColorScheme();
+export default function Root() {
+  return (
+    <SessionProvider>
+      <SplashScreenController />
+      <RootNavigator />
+    </SessionProvider>
+  );
+}
+function RootNavigator() {
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
+    const colorScheme = useColorScheme();
+    const { user, isLoading } = useSession();
 
-    if (!loaded) {
+    if (!loaded || isLoading) {
         return null;
     }
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="index" options={{ headerShown: false }} />
-                    <Stack.Screen name="signUp" options={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Protected guard={!user}>
                     <Stack.Screen name="login" options={{ headerShown: false }} />
-                    
+                    <Stack.Screen name="signUp" options={{ headerShown: false }} />
+                </Stack.Protected>
+
+                <Stack.Protected guard={!!user}>
                     <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-                </Stack>
-                <StatusBar style="auto" />
+                    <Stack.Screen name="quiz" options={{ headerShown: false }} />
+                    <Stack.Screen name="detectionDetails" options={{ headerShown: false }} />
+                </Stack.Protected>
+            </Stack>
+            <StatusBar style="auto" />
             </ThemeProvider>
         </GestureHandlerRootView>
     );

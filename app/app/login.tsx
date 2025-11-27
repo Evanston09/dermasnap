@@ -2,34 +2,33 @@ import { ThemedText } from '@/components/ThemedText';
 import { Image } from 'expo-image';
 import { ThemedView } from '@/components/ThemedView';
 import { TouchableOpacity, StyleSheet, TextInput, Alert, Dimensions } from "react-native";
-import { auth } from '@/firebaseConfig'
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { router } from 'expo-router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useSession } from '@/contexts/AuthContext';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState<String | null>(null)
     const textColor = useThemeColor({}, 'text');
-    
+    const { signIn } = useSession();
+
     const handleSignIn = async () => {
-        setError(null)
+        setError(null);
 
         if (!email.trim() || !password.trim()) {
-            setError('Fill Out All Fields')
+            setError('Fill Out All Fields');
             return;
         }
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                router.replace('/(drawer)/acneType')
-            })
-            .catch((error) => {
-                setError(error.message)
-            });
-        
+
+        try {
+            await signIn(email, password);
+            // Auto-navigation via _layout.tsx when user state changes
+        } catch (error: any) {
+            setError(error.message);
+        }
     }
 
     return (
@@ -70,7 +69,7 @@ export default function LoginScreen() {
                     <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#fff">Sign In</ThemedText>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => router.replace('/signUp')}
                 >
                     <ThemedText type="defaultSemiBold" style={styles.extraText}>Create Account</ThemedText>

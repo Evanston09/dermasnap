@@ -5,10 +5,10 @@ import { Colors } from '@/constants/Colors';
 import { ThemedView } from '@/components/ThemedView';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScanFace, Droplets, Sun, Clock, Zap } from 'lucide-react-native';
-import { auth } from '@/firebaseConfig';
 import { useRef, useEffect, useState, useCallback} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect } from 'expo-router';
+import { useSession } from '@/contexts/AuthContext';
 
 type Results = {
     id: string, 
@@ -37,6 +37,7 @@ type Detection = {
 export default function Overview() {
     const textColor = useThemeColor({}, 'text');
     const pagerRef = useRef<PagerView | null>(null);
+    const { user } = useSession();
 
     const [results, setResults] = useState<Results[] | null>(null);
 
@@ -65,8 +66,6 @@ export default function Overview() {
 
                 // Get 3 most recent scans
                 const recentScans = flatDetections.slice(-3).reverse();
-
-                console.log('Recent scans:', JSON.stringify(recentScans, null, 2));
 
                 setResults(recentScans)
             }
@@ -124,7 +123,7 @@ export default function Overview() {
         <ThemedView style={styles.container}>
             <ScrollView>
             <View style={styles.upperSection}>
-                <ThemedText type='title'>Welcome back {auth.currentUser?.displayName}!</ThemedText>
+                <ThemedText type='title'>Welcome back {user?.displayName}!</ThemedText>
                 <ThemedText type='subtitle' style={styles.subtitleText}>
                     ClearSkin AI Is Here To Help!
                 </ThemedText>
