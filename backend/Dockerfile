@@ -26,11 +26,17 @@ COPY main.py ./
 # Copy model file (if it exists in the build context)
 COPY model.pt ./model.pt
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+ && rm -rf /var/lib/apt/lists/*
+
 # Set environment variables
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
-    MODEL_PATH=/app/model.pt
+    MODEL_PATH=/app/model.pt \
+    PORT=8080
 
 EXPOSE 8080
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
