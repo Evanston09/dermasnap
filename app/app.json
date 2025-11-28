@@ -60,7 +60,15 @@
       "expo-secure-store",
       "expo-asset",
       "react-native-fast-tflite",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "clearskin-ai",
+          "organization": "evanston"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

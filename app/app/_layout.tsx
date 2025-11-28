@@ -9,15 +9,35 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { SessionProvider, useSession } from '@/contexts/AuthContext';
 import SplashScreenController from './splash';
 import React from 'react';
+import * as Sentry from '@sentry/react-native';
 
-export default function Root() {
+Sentry.init({
+  dsn: 'https://70c19d388a86411c59110e45001b5976@o4510439827439616.ingest.us.sentry.io/4510439834255360',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
+
+export default Sentry.wrap(function Root() {
   return (
     <SessionProvider>
       <SplashScreenController />
       <RootNavigator />
     </SessionProvider>
   );
-}
+});
 function RootNavigator() {
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
