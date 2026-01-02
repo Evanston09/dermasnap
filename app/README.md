@@ -1,10 +1,10 @@
-# ClearSkin AI
+# DermaSnap
 
 A React Native mobile application that uses AI to detect and analyze acne, helping users track their skin health over time.
 
 ## Overview
 
-ClearSkin AI allows users to take photos of their face to detect acne spots using machine learning. The app provides personalized insights, tracks scan history, and offers skincare tips to help manage acne conditions.
+DermaSnap allows users to take photos of their face to detect acne spots using machine learning. The app provides personalized insights, tracks scan history, and offers skincare tips to help manage acne conditions.
 
 ## Technologies
 
@@ -59,4 +59,4 @@ npm run web      # Web
 
 ## Disclaimer
 
-ClearSkin AI is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for medical concerns.
+DermaSnap is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for medical concerns.

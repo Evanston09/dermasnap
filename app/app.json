@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Clearskin AI",
-    "slug": "clearskinai",
+    "name": "DermaSnap",
+    "slug": "dermasnap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "clearskinai",
+    "scheme": "dermasnap",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "me.evankim.clearskinai",
+      "bundleIdentifier": "me.evankim.dermasnap",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -25,7 +25,7 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.evanston.clearskin"
+      "package": "com.evanston.dermasnap"
     },
     "web": {
       "bundler": "metro",

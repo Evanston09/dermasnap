@@ -37,7 +37,7 @@ export default function LoginScreen() {
                 source={require('@/assets/images/clearskin_logo.jpg')}
                 style={styles.logo}
             />
-                <ThemedText type="title">Welcome to Clearskin AI</ThemedText>
+                <ThemedText type="title">Welcome to DermaSnap</ThemedText>
                 <ThemedText style={styles.subtitle} type="subtitle">Sign in to your account</ThemedText>
                     <TextInput
                         style={[styles.input, { color: textColor }]}

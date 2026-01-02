@@ -125,7 +125,7 @@ export default function Overview() {
             <View style={styles.upperSection}>
                 <ThemedText type='title'>Welcome back {user?.displayName}!</ThemedText>
                 <ThemedText type='subtitle' style={styles.subtitleText}>
-                    ClearSkin AI Is Here To Help!
+                    DermaSnap Is Here To Help!
                 </ThemedText>
                 
                 <TouchableOpacity style={styles.scanButton} onPress={()=>router.push('/(drawer)/acneType')}>

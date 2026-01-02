@@ -1,4 +1,4 @@
-# ClearSkin AI
+# DermaSnap
 
 An AI-powered mobile app that detects and analyzes acne to help users track their skin health over time.
 
@@ -43,4 +43,4 @@ npm expo start
 
 ## Disclaimer
 
-ClearSkin AI is not a substitute for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
+DermaSnap is not a substitute for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
